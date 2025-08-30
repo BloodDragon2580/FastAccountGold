@@ -103,13 +103,28 @@ else
   L.SPENT = "Spent"
 end
 
+-- #### Symbole (eingebettete Texturen) ####
+local ICON_GAIN  = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_4:14:14:0:0|t" -- grünes Dreieck
+local ICON_SPENT = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_7:14:14:0:0|t" -- rotes X
+
 -- #### Hilfsfunktionen ####
+local function formatWithSeparators(num)
+  local formatted = tostring(num)
+  while true do
+    local k
+    formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", "%1.%2")
+    if k == 0 then break end
+  end
+  return formatted
+end
+
 local function MoneyToString(copper)
   copper = copper or 0
   local gold = floor(copper / (100*100))
   local silver = floor((copper / 100) % 100)
   local copperOnly = copper % 100
-  return string.format("|cffffd700%dg|r |cffc7c7cf%02ds|r |cffeda55f%02dc|r", gold, silver, copperOnly)
+  gold = formatWithSeparators(gold)
+  return string.format("|cffffd700%sg|r |cffc7c7cf%02ds|r |cffeda55f%02dc|r", gold, silver, copperOnly)
 end
 
 local function GetWarbandMoney()
@@ -199,11 +214,11 @@ if LDB then
       end
 
       tt:AddLine(" ")
-      tt:AddDoubleLine("|cffffd700"..L.TOTAL.."|r", MoneyToString(CalculateTotal()))
+      tt:AddDoubleLine("|cffffd700"..L.TOTAL.."|r", "|cffffff00"..MoneyToString(CalculateTotal()).."|r")
       tt:AddLine(" ")
-      tt:AddLine("|cff00ff00"..L.SESSION.."|r")
-      tt:AddDoubleLine(L.GAINED..":", MoneyToString(FastAccountGoldDB.session.gain))
-      tt:AddDoubleLine(L.SPENT..":", MoneyToString(FastAccountGoldDB.session.spent))
+      tt:AddLine("|cffffff00"..L.SESSION.."|r")
+      tt:AddDoubleLine(ICON_GAIN.." |cff00ff00"..L.GAINED.."|r:", "|cff00ff00"..MoneyToString(FastAccountGoldDB.session.gain).."|r")
+      tt:AddDoubleLine(ICON_SPENT.." |cffff0000"..L.SPENT.."|r:", "|cffff0000"..MoneyToString(FastAccountGoldDB.session.spent).."|r")
       tt:AddLine(" ")
       tt:AddLine("|cffaaaaaa"..L.SHIFTRESET.."|r")
       tt:AddLine("|cffaaaaaa"..L.ALTRESET.."|r")
