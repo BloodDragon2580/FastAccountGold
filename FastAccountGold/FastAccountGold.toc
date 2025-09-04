@@ -1,8 +1,9 @@
 ## Interface: 110200
 ## Title: Titan Panel [|cffd6266cFastAccountGold|r]
 ## Notes: Zeigt Gold für alle Charaktere, Warband-Bank und Gildenbank im Tooltip an.
+## Notes-ruRU: Отображает золото для всех персонажей, банка отряда и банка гильдии во всплывающей подсказке.
 ## Version: 1.5
-## Author: BloddDragon2580
+## Author: BloodDragon2580
 ## SavedVariables: FastAccountGoldDB
 ## OptionalDeps: Titan, LibStub, LibDataBroker-1.1
 ## IconTexture: Interface\AddOns\FastAccountGold\Media\Texture\logo
