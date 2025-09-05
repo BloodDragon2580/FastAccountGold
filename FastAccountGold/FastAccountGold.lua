@@ -202,7 +202,13 @@ if LDB then
       tt:AddDoubleLine("|cff00ff00"..L.CURCHAR.."|r", MoneyToString(currentCharGold))
       tt:AddLine(" ")
       tt:AddDoubleLine("|cffffff00"..L.WARBAND.."|r", MoneyToString(warband))
-      tt:AddDoubleLine("|cffffff00"..L.GUILDBANK.."|r", MoneyToString(guild))
+
+      local guildDate = ""
+      if FastAccountGoldDB.guild.ts and FastAccountGoldDB.guild.ts > 0 then
+        guildDate = " ("..date("%d.%m.%Y %H:%M", FastAccountGoldDB.guild.ts)..")"
+      end
+      tt:AddDoubleLine("|cffffff00"..L.GUILDBANK.."|r", MoneyToString(guild)..guildDate)
+
       tt:AddLine(" ")
       tt:AddLine("|cffffd700"..L.ALLCHARS.."|r")
       for realm, chars in pairs(FastAccountGoldDB.chars) do
@@ -256,19 +262,28 @@ f:SetScript("OnEvent", function(_, event)
     ensureCharEntry()
     ensureSession()
     updateCharMoney()
+
     if IsInGuild() then
-      FastAccountGoldDB.guild.last = GetGuildMoneyCached()
-      FastAccountGoldDB.guild.ts = time()
+      local guildGold = GetGuildMoneyCached()
+      if guildGold > 0 then
+        FastAccountGoldDB.guild.last = guildGold
+        FastAccountGoldDB.guild.ts = time()
+      end
     end
+
     if not FastAccountGoldDB.session.lastLogin or (time() - FastAccountGoldDB.session.lastLogin) > 300 then
       resetSession()
     end
+
     previousGold = GetMoney()
+
   elseif event == "PLAYER_MONEY" then
     trackSession()
     updateCharMoney()
+
   elseif event == "PLAYER_LOGOUT" then
     updateCharMoney()
+
   elseif event == "GUILDBANKFRAME_OPENED" or event == "GUILDBANK_UPDATE_MONEY" then
     FastAccountGoldDB.guild.last = GetGuildMoneyCached()
     FastAccountGoldDB.guild.ts = time()
