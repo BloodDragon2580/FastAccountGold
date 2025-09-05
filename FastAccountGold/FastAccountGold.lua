@@ -91,7 +91,7 @@ elseif locale == "ruRU" then
   L.ALLCHARS = "Все персонажи:"
   L.TOTAL = "Всего"
   L.RESET = "База данных сброшена."
-  L.SESSIONRESET = "Сеанс сброшена."
+  L.SESSIONRESET = "Сеанс сброшен."
   L.HELP1 = "Команды:"
   L.HELP2 = "/fag reset - сбросить базу данных."
   L.HELP3 = "/fag session - сбросить только сеанс."
